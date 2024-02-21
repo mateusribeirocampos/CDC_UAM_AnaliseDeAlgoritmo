@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# McOsX directory attributes
+.DS_Store
+
 # Compiled Object files
 *.slo
 *.lo
