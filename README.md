@@ -1,8 +1,8 @@
 
-# Ciência da Computação [UAM]_Analise de Algoritmo
+# Ciência da Computação [UAM] Analise de Algoritmo
 
 Estudos de analise de algoritmo UAM
 
 # Capítulo 1
 
-Bubble Sort
+Insert and Bubble Sort
