@@ -21,6 +21,10 @@ void bubbleSort(std::vector<int> &vetor) {
                 vetor[j + 1] = aux; // complexidade O(1)
                 std::cout << "Troca: " << vetor[j] << " com " << vetor[j + 1] << std::endl; // complexidade O(1)
             }
+            // remover a ordenação desnecessária
+            if (vetor[j] < vetor[j + 1]) { // comparação complexidade O(1)
+                std::cout << "Não troca: " << vetor[j] << " com " << vetor[j + 1] << std::endl; // complexidade O(1)
+            }
             // Para verificar o passo a passo do ordenamento
             imprimirVetor(vetor);
         }
