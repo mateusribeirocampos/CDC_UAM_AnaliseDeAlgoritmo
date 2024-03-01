@@ -10,5 +10,5 @@ int main(){
     for (int i = 0; i < vetor.size(); i++){
         std::cout << vetor[i] << " ";
     }
-    
+    return 0;
 }
