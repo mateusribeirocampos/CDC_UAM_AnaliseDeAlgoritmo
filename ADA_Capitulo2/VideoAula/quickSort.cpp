@@ -89,7 +89,7 @@ void quickSort(vector<int> &vetor, int inicio, int fim)
         int pivo_indice = particiona_random(vetor, inicio, fim);
 
         // chamada recursivas quickSort para as duas metades
-        // antes e depois do pivô
+        // a esquerda (pivo_indice - 1) e a direita (pivo_indice + 1) do pivô
         quickSort(vetor, inicio, pivo_indice - 1);
         quickSort(vetor, pivo_indice + 1, fim);
     }
