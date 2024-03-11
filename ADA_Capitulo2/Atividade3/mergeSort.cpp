@@ -3,6 +3,7 @@
 #include <chrono>
 using namespace std;
 
+// Função para imprimir o vetor
 void imprimirVetor(vector<int> &vetor, int n)
 {
     cout << "[";
@@ -17,72 +18,126 @@ void imprimirVetor(vector<int> &vetor, int n)
     cout << "]" << endl;
 }
 
+void imprimirSubVetoresEsquerda(vector<int> &vetor, int inicio, int meio)
+{
+    cout << "Subvetor esquerda: [";
+    for (int i = inicio; i <= meio; i++)
+    {
+        cout << vetor[i];
+        if (i < meio)
+        {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl << endl;
+}
+
+void imprimirSubVetorDireita(vector<int> &vetor, int meio, int fim)
+{
+    cout << "Subvetor direita: [";
+    for (int i = meio + 1; i <= fim; i++)
+    {
+        cout << vetor[i];
+        if (i < fim)
+        {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl << endl;
+}
+
+// Função para mesclar dois subvetores ordenados em um único subvetor ordenado
 void merge(vector<int> &vetor, int inicio, int meio, int fim)
 {
-    int meioEsquerda = meio - inicio + 1;
-    int direitaMeio = fim - meio;
+    // Calcula o tamanho dos subvetores temporários
+    int tamanhoEsquerda = meio - inicio + 1; // Tamanho do subvetor temporário para os elementos da metade esquerda
+    int tamanhoDireita = fim - meio; // Tamanho do subvetor temporário para os elementos da metade direita
 
-    // Vetores temporários
-    vector<int> esquerda(meioEsquerda), direita(direitaMeio);
+    cout << "Tamanho esquerda: " << tamanhoEsquerda << " Tamanho direita: " << tamanhoDireita << endl;
 
-    // Copia os dados para os vetores temporários esquerda[] e direita[]
-    for (int i = 0; i < meioEsquerda; i++)
+    // Cria vetores temporários para armazenar os elementos das metades esquerda e direita
+    vector<int> subvetorEsquerda(tamanhoEsquerda);
+    vector<int> subvetorDireita(tamanhoDireita);
+
+    imprimirSubVetorDireita(vetor, inicio, meio);
+    imprimirSubVetoresEsquerda(vetor, meio, fim);
+
+    // Copia os elementos das metades esquerda e direita para os vetores temporários
+    for (int i = 0; i < tamanhoEsquerda; i++)
     {
-        esquerda[i] = vetor[inicio + i];
+        subvetorEsquerda[i] = vetor[inicio + i];
+        cout << endl << "Subvetor esquerda: " << subvetorEsquerda[i] << endl;
     }
-    for (int j = 0; j < direitaMeio; j++)
+    for (int j = 0; j < tamanhoDireita; j++)
     {
-        direita[j] = vetor[meio + 1 + j];
+        subvetorDireita[j] = vetor[meio + 1 + j];
+        cout << endl << "Subvetor direita: " << subvetorDireita[j] << endl;
     }
 
-    // Mescla os vetores temporários de volta para o vetor
-    int i = 0; // Índice inicial do primeiro subvetor
-    int j = 0; // Índice inicial do segundo subvetor
-    int k = inicio; // Índice inicial do subvetor mesclado
-    while (i < meioEsquerda && j < direitaMeio)
+    // Índices iniciais dos subvetores temporários e do vetor mesclado
+    int indiceEsquerda = 0; // Índice inicial do subvetor temporário para a metade esquerda
+    int indiceDireita = 0; // Índice inicial do subvetor temporário para a metade direita
+    int indiceMesclado = inicio; // Índice inicial do vetor mesclado
+
+    // Mescla os subvetores temporários de volta para o vetor original
+    while (indiceEsquerda < tamanhoEsquerda && indiceDireita < tamanhoDireita)
     {
-        if (esquerda[i] <= direita[j])
+        if (subvetorEsquerda[indiceEsquerda] <= subvetorDireita[indiceDireita])
         {
-            vetor[k] = esquerda[i];
-            i++;
+            // Se o elemento da metade esquerda for menor ou igual ao elemento da metade direita,
+            // copia o elemento da metade esquerda para o vetor original e avança para o próximo elemento da metade esquerda
+            vetor[indiceMesclado] = subvetorEsquerda[indiceEsquerda];
+            indiceEsquerda++;
         }
         else
         {
-            vetor[k] = direita[j];
-            j++;
+            // Se o elemento da metade direita for menor que o elemento da metade esquerda,
+            // copia o elemento da metade direita para o vetor original e avança para o próximo elemento da metade direita
+            vetor[indiceMesclado] = subvetorDireita[indiceDireita];
+            indiceDireita++;
         }
-        k++;
+        indiceMesclado++; // Avança para o próximo índice do vetor mesclado
     }
 
-    // Copia os elementos restantes de esquerda[], se houver
-    while (i < meioEsquerda)
+    // Copia os elementos restantes do subvetor esquerdo, se houver
+    while (indiceEsquerda < tamanhoEsquerda)
     {
-        vetor[k] = esquerda[i];
-        i++;
-        k++;
+        vetor[indiceMesclado] = subvetorEsquerda[indiceEsquerda];
+        indiceEsquerda++;
+        indiceMesclado++;
     }
 
-    // Copia os elementos restantes de direita[], se houver
-    while (j < direitaMeio)
+    // Copia os elementos restantes do subvetor direito, se houver
+    while (indiceDireita < tamanhoDireita)
     {
-        vetor[k] = direita[j];
-        j++;
-        k++;
+        vetor[indiceMesclado] = subvetorDireita[indiceDireita];
+        indiceDireita++;
+        indiceMesclado++;
     }
 }
 
+// Função principal do Merge Sort
 void mergeSort(vector<int> &vetor, int inicio, int fim)
 {
     if (inicio < fim)
     {
-        // Encontra o ponto médio
+        // Calcula o ponto médio do vetor
         int meio = inicio + (fim - inicio) / 2;
 
-        // Ordena a primeira e a segunda metade
+        cout << "Meio do vetor: " << meio << endl << endl;
+
+        // Chama a função mergeSort recursivamente para ordenar as duas metades do vetor
+        cout << "Chamada recursiva para a metade esquerda do vetor" << endl;
+        cout << "Inicio: " << inicio << " Meio: " << meio << endl;
         mergeSort(vetor, inicio, meio);
+
+        cout << "Chamada recursiva para a metade direita do vetor" << endl;
+        cout << "Meio + 1: " << meio + 1 << " Fim: " << fim << endl;
         mergeSort(vetor, meio + 1, fim);
 
-        // Mescla as metades ordenadas
+        // Mescla as metades ordenadas para obter o vetor completamente ordenado
+        cout << "Mesclando as metades ordenadas" << endl;
+        cout << "Inicio: " << inicio << " Meio: " << meio << " Fim: " << fim << endl;
         merge(vetor, inicio, meio, fim);
     }
 }
@@ -96,7 +151,7 @@ int main() {
 
     auto start = chrono::high_resolution_clock::now();
 
-    // Merge Sort
+    // Chama a função mergeSort para ordenar o vetor
     mergeSort(vetor, 0, n - 1);
 
     auto end = chrono::high_resolution_clock::now();
@@ -109,4 +164,3 @@ int main() {
     
     return 0;
 }
-
