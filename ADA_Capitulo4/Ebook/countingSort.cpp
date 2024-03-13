@@ -5,7 +5,7 @@ using namespace std;
 void imprimirVetor(const vector<int> &vetor)
 {
     cout << "[";
-    for (auto i = 0; i < vetor.size(); i++)
+    for (int i = 0; i < vetor.size(); i++)
     {
         cout << vetor[i];
         if (i < vetor.size() - 1)
@@ -23,7 +23,7 @@ vector<int> countingSort(const vector<int> &vetor)
 
     // Encontrar o maior elemento no vetor.
     int maiorElemento = 0;
-    for (auto i = 0; i < tamanhoVetor; i++)
+    for (int i = 0; i < tamanhoVetor; i++)
     {
         if (vetor[i] > maiorElemento)
         {
@@ -41,12 +41,14 @@ vector<int> countingSort(const vector<int> &vetor)
     {
         vetorContagem[vetor[i]]++;
     }
+    imprimirVetor(vetorContagem);
 
     // Calcular as posições corretas de cada elemento no vetor ordenado.
     for (int i = 1; i < vetorContagem.size(); i++)
     {
         vetorContagem[i] += vetorContagem[i - 1];
     }
+    imprimirVetor(vetorContagem);
 
     // Construir o vetor ordenado.
     vector<int> vetorOrdenado(tamanhoVetor);
@@ -55,12 +57,13 @@ vector<int> countingSort(const vector<int> &vetor)
         vetorOrdenado[vetorContagem[vetor[i]] - 1] = vetor[i];
         vetorContagem[vetor[i]]--;
     }
+    imprimirVetor(vetorContagem);
     return vetorOrdenado;
 }
 
 int main()
 {
-    vector<int> vetor = {2, 5, 3, 0, 2, 3, 0, 3};
+    vector<int> vetor = {4, 1, 5, 0, 1, 6, 5, 1, 5, 3};
 
     // Ordenar o vetor utilizando counting sort.
     vector<int> vetorOrdenado = countingSort(vetor);

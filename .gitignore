@@ -3,6 +3,8 @@
 
 # McOsX directory attributes
 .DS_Store
+info.plist
+*.dSYM
 
 # Compiled Object files
 *.slo
